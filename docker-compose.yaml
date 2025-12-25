@@ -2,10 +2,10 @@ version: '3.8'
 services:
   postgres:
     image: postgres:alpine
-    restart: until-stopped
+    restart: unless-stopped
     container_name: aspexam
     ports:
-      - 5432:5432
+      - 5434:5432
     environment:
       POSTGRES_USER: aspexam
       POSTGRES_DB: aspexam

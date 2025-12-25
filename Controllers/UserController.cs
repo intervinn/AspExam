@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using AspExam.Data;
+using AspExam.Data.DTO;
 using AspExam.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -38,16 +39,16 @@ public class UserController : ControllerBase
 
         var links = _dbContext.Links.Where(l => l.OwnerId == user.Id).ToList();
 
-        return Ok(new
+        return Ok(new ApiResponse<PartialUser>
         {
-           success = true,
-           data = new
+           Success = true,
+           Data = new PartialUser
            {
-               user.Id,
-               user.Email,
-               user.FirstName,
-               user.LastName,
-               user.CreatedAt,
+               Id = user.Id,
+               Email = user.Email!,
+               FirstName = user.FirstName,
+               LastName = user.LastName,
+               CreatedAt = user.CreatedAt,
                Links = links
            }
         });

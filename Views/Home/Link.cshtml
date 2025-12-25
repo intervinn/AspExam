@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Link";
+}
+@model AspExam.Data.DTO.CreateLinkBody;
+
+<h2>Create Link</h2>
+<form asp-action="Link" method="post">
+    <div>
+        <label asp-for="Destination"></label>
+        <input asp-for="Destination" />
+        <span asp-validation-for="Destination"></span>
+    </div>
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <button type="submit">Register</button>
+    <span class="text-danger">@Html.ValidationSummary(false)</span>
+</form>

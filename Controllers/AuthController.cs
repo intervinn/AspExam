@@ -36,19 +36,19 @@ public class AuthController : ControllerBase
         try
         {
             var result = await _authService.RegisterAsync(body);
-            return Ok(new
+            return Ok(new ApiResponse<AuthResponse>
             {
-               success = true,
-               data = result 
+               Success = true,
+               Data = result 
             });
         } 
         catch (Exception e)
         {
             _logger.LogError(e, "Registration failed");
-            return BadRequest(new
+            return BadRequest(new ApiResponse
             {
-                success = false,
-                message = e.Message
+                Success = false,
+                Message = e.Message
             });
         }
     }
@@ -60,19 +60,19 @@ public class AuthController : ControllerBase
         try
         {
             var result = await _authService.LoginAsync(body);
-            return Ok(new
+            return Ok(new ApiResponse<AuthResponse>
             {
-                success = true,
-                data = result
+                Success = true,
+                Data = result
             });
         }
         catch (Exception e)
         {
             _logger.LogError(e, "Authentication failed");
-            return BadRequest(new
+            return BadRequest(new ApiResponse
             {
-                success = false,
-                message = e.Message
+                Success = false,
+                Message = e.Message
             });
         }
     }
@@ -85,17 +85,17 @@ public class AuthController : ControllerBase
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
             var result = await _authService.ChangePasswordAsync(userId, body.CurrentPassword, body.NewPassword);
-            return Ok(new
+            return Ok(new ApiResponse
             {
-                success = result
+                Success = result
             });
         }
         catch (Exception e)
         {
-            return BadRequest(new
+            return BadRequest(new ApiResponse
             {
-                success = false,
-                message = e.Message
+                Success = false,
+                Message = e.Message
             });
         }
     }
@@ -107,17 +107,17 @@ public class AuthController : ControllerBase
         try
         {
             var result = await _authService.AssignRoleAsync(body.Email, body.RoleName);
-            return Ok(new
+            return Ok(new ApiResponse
             {
-                success = result
+                Success = result
             });
         }
         catch (Exception e)
         {
-            return BadRequest(new
+            return BadRequest(new ApiResponse<string>
             {
-                success = false,
-                message = e.Message
+                Success = false,
+                Message = e.Message
             });
         }
     }

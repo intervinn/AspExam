@@ -28,6 +28,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
             .HasMany(e => e.Links)
             .WithOne(e => e.Owner)
             .HasForeignKey(e => e.OwnerId)
+            .IsRequired(false)
             .HasPrincipalKey(e => e.Id);
 
         modelBuilder.Entity<Link>();

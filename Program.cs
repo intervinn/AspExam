@@ -1,6 +1,8 @@
 using System.Text;
 using AspExam.Data;
 using AspExam.Data.Entities;
+using AspExam.Services;
+using AspExam.Services.Implementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +24,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 8;
+    options.User.RequireUniqueEmail = true;
 })
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddHttpClient();
 
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ILinkService, LinkService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -66,6 +72,13 @@ builder.Services.AddAuthentication(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.SameSite = SameSiteMode.Strict;
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+   options.LoginPath = "/Account/Login";
+   options.LogoutPath = "/Account/Logout";
+   options.AccessDeniedPath = "/Account/AccessDenied"; 
 });
 
 builder.Services.AddAuthorization(options =>
@@ -119,14 +132,15 @@ using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     string[] roleNames = ["User", "Admin", "Manager"];
-    _ = roleNames.Select(async role =>
+    foreach (var role in roleNames)
     {
+        Console.WriteLine("CREATING ROLES...");
         var roleExist = await roleManager.RoleExistsAsync(role);
         if (!roleExist)
         {
             await roleManager.CreateAsync(new IdentityRole(role));
         }
-    });
+    }
 }
 
 app.Run();

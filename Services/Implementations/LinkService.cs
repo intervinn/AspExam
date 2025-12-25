@@ -15,13 +15,13 @@ public class LinkService : ILinkService
     }
 
     public async Task<Link?> MatchAsync(string endpoint) {
-        var endpointExists = _dbContext.Links.Where(e => e.CustomEndpoint == endpoint).First();
+        var endpointExists = await _dbContext.Links.Where(e => e.CustomEndpoint == endpoint).FirstOrDefaultAsync();
         if (endpointExists != null)
         {
             return endpointExists;
         }
 
-        var idExists = _dbContext.Links.Where(e => Base62Converter.Decode(endpoint) == e.Id).First();
+        var idExists = await _dbContext.Links.Where(e => Base62Converter.Decode(endpoint) == e.Id).FirstOrDefaultAsync();
         if (idExists != null)
         {
             return idExists;
@@ -31,11 +31,11 @@ public class LinkService : ILinkService
     }
 
     public async Task<Link?> FindByIdAsync(string id) {
-        return await _dbContext.Links.Where(e => Base62Converter.Decode(id) == e.Id).FirstAsync();
+        return await _dbContext.Links.Where(e => Base62Converter.Decode(id) == e.Id).FirstOrDefaultAsync();
     }
 
     public async Task<Link?> FindByEndpointAsync(string endpoint) {
-        return await _dbContext.Links.Where(e => endpoint == e.CustomEndpoint).FirstAsync();
+        return await _dbContext.Links.Where(e => endpoint == e.CustomEndpoint).FirstOrDefaultAsync();
     }
 
     public async Task CreateAsync(Link link) {

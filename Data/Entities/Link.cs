@@ -15,6 +15,6 @@ public class Link
     
     public string? CustomEndpoint { get; set; }
 
-    public string OwnerId {get; set;} = string.Empty;
+    public string? OwnerId {get; set;} = string.Empty;
     public AppUser? Owner { get; set; }
 }
