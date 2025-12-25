@@ -5,6 +5,8 @@ using AspExam.Helpers;
 using AspExam.Services;
 using Microsoft.AspNetCore.Mvc;
 
+namespace AspExam.Controllers;
+
 [ApiController]
 [Route("link")]
 public class LinkController : ControllerBase

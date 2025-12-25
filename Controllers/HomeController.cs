@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
 
-namespace asptest.Controllers;
+namespace AspExam.Controllers;
 
 public class HomeController : Controller
 {

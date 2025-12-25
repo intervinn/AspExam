@@ -4,6 +4,7 @@ using AspExam.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+namespace AspExam.Controllers;
 public class ChangePasswordBody
 {
     public required string CurrentPassword { get; set; }
