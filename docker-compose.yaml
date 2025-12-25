@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:alpine
+    restart: until-stopped
+    container_name: aspexam
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: aspexam
+      POSTGRES_DB: aspexam
+      POSTGRES_PASSWORD: aspexam
+      POSTGRES_HOST_AUTH_METHOD: trust
